@@ -27,7 +27,7 @@ jobs:
           name: Battlestation Version ${{ env.env.PKG_VERSION }}
           tag_name: v${{ env.PKG_VERSION }}
           body: "Automated Battlestation Build Version ${{ env.PKG_VERSION }}"
-          files: ${{ github.workspace }}\battlestation\target\release\${{ PKG_NAME }}.exe
+          files: ${{ github.workspace }}\battlestation\target\release\${{ env.PKG_NAME }}.exe
 
   MacOS:
     name: Compile MacOS Binaries
@@ -50,7 +50,7 @@ jobs:
           name: Battlestation Version ${{ env.PKG_VERSION }}
           tag_name: v${{ env.PKG_VERSION }}
           body: "Automated Battlestation Build Version ${{ env.PKG_VERSION }}"
-          files: ${{ github.workspace }}\battlestation\target\release\${{ PKG_NAME }}.app
+          files: ${{ github.workspace }}\battlestation\target\release\${{ env.PKG_NAME }}.app
 
   Linux:
     name: Compile Linux Binaries
@@ -73,4 +73,4 @@ jobs:
           name: Battlestation Version ${{ env.PKG_VERSION }}
           tag_name: v${{ env.PKG_VERSION }}
           body: "Automated Battlestation Build Version ${{ env.PKG_VERSION }}"
-          files: ${{ github.workspace }}\battlestation\target\release\${{ PKG_NAME }}
+          files: ${{ github.workspace }}\battlestation\target\release\${{ env.PKG_NAME }}
