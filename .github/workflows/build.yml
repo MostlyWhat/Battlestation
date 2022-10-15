@@ -24,9 +24,9 @@ jobs:
       - name: Release to GitHub Releases
         uses: softprops/action-gh-release@v1
         with:
-          name: Battlestation Version ${{ PKG_VERSION }}
-          tag_name: v${{ PKG_VERSION }}
-          body: "Automated Battlestation Build Version ${{ PKG_VERSION }}"
+          name: Battlestation Version ${{ env.env.PKG_VERSION }}
+          tag_name: v${{ env.PKG_VERSION }}
+          body: "Automated Battlestation Build Version ${{ env.PKG_VERSION }}"
           files: ${{ github.workspace }}\battlestation\target\release\${{ PKG_NAME }}.exe
 
   MacOS:
@@ -47,9 +47,9 @@ jobs:
       - name: Release to GitHub Releases
         uses: softprops/action-gh-release@v1
         with:
-          name: Battlestation Version ${{ PKG_VERSION }}
-          tag_name: v${{ PKG_VERSION }}
-          body: "Automated Battlestation Build Version ${{ PKG_VERSION }}"
+          name: Battlestation Version ${{ env.PKG_VERSION }}
+          tag_name: v${{ env.PKG_VERSION }}
+          body: "Automated Battlestation Build Version ${{ env.PKG_VERSION }}"
           files: ${{ github.workspace }}\battlestation\target\release\${{ PKG_NAME }}.app
 
   Linux:
@@ -70,7 +70,7 @@ jobs:
       - name: Release to GitHub Releases
         uses: softprops/action-gh-release@v1
         with:
-          name: Battlestation Version ${{ PKG_VERSION }}
-          tag_name: v${{ PKG_VERSION }}
-          body: "Automated Battlestation Build Version ${{ PKG_VERSION }}"
+          name: Battlestation Version ${{ env.PKG_VERSION }}
+          tag_name: v${{ env.PKG_VERSION }}
+          body: "Automated Battlestation Build Version ${{ env.PKG_VERSION }}"
           files: ${{ github.workspace }}\battlestation\target\release\${{ PKG_NAME }}
