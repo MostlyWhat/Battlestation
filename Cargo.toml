@@ -1,0 +1,27 @@
+[package]
+name = "mostlywhat-battlestation"
+description = "A terminal-styled utility software made in rust-lang"
+authors = ["mostlywhat"]
+version = "0.0.1"
+edition = "2021"
+
+build = "build.rs"
+
+readme = "README.md"
+homepage = "https://www.mostlywhat.systems/projects/battlestation"
+repository = "https://www.github.com/mostlywhat/battlestation"
+license-file = "LICENSE"
+keywords = ["terminal", "cli", "rust", "rust-lang", "mostlywhat"]
+categories = ["command-line-utilities"]
+
+[dependencies]
+colored = "2.0.0"
+chrono = "0.4.22"
+clearscreen = "1.0.10"
+rand = "0.8.3"
+rpassword = "7.0"
+sysinfo = "0.26.4"
+toml = "0.5.9"
+
+[build-dependencies]
+winres = "0.1.12"
