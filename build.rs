@@ -7,7 +7,7 @@ fn main() {
     let version = env::var("CARGO_PKG_VERSION").unwrap();
 
     // Set cargo environment variables for github actions
-    env::set_var("PKG_NAME", name)
+    env::set_var("PKG_NAME", name);
     env::set_var("PKG_VERSION", version);
 
     if cfg!(target_os = "windows") {
