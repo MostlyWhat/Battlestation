@@ -14,6 +14,7 @@ pub fn main(username: &str) {
         let command = input(&prefix);
 
         match command.as_str() {
+            "clear" | "cls" => clear(),
             "help" => help(),
             "system" => system(),
             "exit" => exit(),
