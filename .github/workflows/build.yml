@@ -1,0 +1,72 @@
+name: Compile Binaries for Release
+on: [push]
+
+jobs:
+  Windows:
+    name: Compile Windows Binaries
+    runs-on: windows-latest
+    
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: actions/checkout
+        uses: actions/checkout@v2
+          
+      - uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --release
+      
+      #Publishing to Release
+      - name: Release to GitHub Releases
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Battlestation Version ${{ CARGO_PKG_VERSION }}
+          tag_name: v${{ CARGO_PKG_VERSION }}
+          body: "Automated Battlestation Build Version ${{ CARGO_PKG_VERSION }}"
+          files: ${{ github.workspace }}\battlestation\target\release\${{ CARGO_PKG_NAME }}.exe
+  
+  MacOS:
+    name: Compile MacOS Binaries
+    runs-on: macos-latest
+    
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: actions/checkout
+        uses: actions/checkout@v2
+          
+      - uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --release
+      
+      #Publishing to Release
+      - name: Release to GitHub Releases
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Battlestation Version ${{ CARGO_PKG_VERSION }}
+          tag_name: v${{ CARGO_PKG_VERSION }}
+          body: "Automated Battlestation Build Version ${{ CARGO_PKG_VERSION }}"
+          files: ${{ github.workspace }}\battlestation\target\release\${{ CARGO_PKG_NAME }}.exe
+  
+  Linux:
+    name: Compile Linux Binaries
+    runs-on: linux-latest
+    
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: actions/checkout
+        uses: actions/checkout@v2
+          
+      - uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --release
+        
+      #Publishing to Release
+      - name: Release to GitHub Releases
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Battlestation Version ${{ CARGO_PKG_VERSION }}
+          tag_name: v${{ CARGO_PKG_VERSION }}
+          body: "Automated Battlestation Build Version ${{ CARGO_PKG_VERSION }}"
+          files: ${{ github.workspace }}\battlestation\target\release\${{ CARGO_PKG_NAME }}.exe
