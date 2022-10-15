@@ -13,27 +13,17 @@ environment:
   # TODO These are all the build jobs. Adjust as necessary. Comment out what you
   # don't need
   matrix:
-    # MinGW
-    - TARGET: i686-pc-windows-gnu
-    - TARGET: x86_64-pc-windows-gnu
-
-    # MSVC
-    - TARGET: i686-pc-windows-msvc
+    # Windows
     - TARGET: x86_64-pc-windows-msvc
 
-    # Testing other channels
-    - TARGET: x86_64-pc-windows-gnu
-      RUST_VERSION: nightly
-    - TARGET: x86_64-pc-windows-msvc
-      RUST_VERSION: nightly
+    # MacOS
+    - TARGET: x86_64-darwin-x86_64
+
+    # Linux
+    - TARGET: x86_64-unknown-linux-musl
+
 
 install:
-  - ps: >-
-      If ($env:TARGET -eq 'x86_64-pc-windows-gnu') {
-        $env:PATH += ';C:\msys64\mingw64\bin'
-      } ElseIf ($env:TARGET -eq 'i686-pc-windows-gnu') {
-        $env:PATH += ';C:\msys64\mingw32\bin'
-      }
   - curl -sSf -o rustup-init.exe https://win.rustup.rs/
   - rustup-init.exe -y --default-host %TARGET% --default-toolchain %RUST_VERSION%
   - set PATH=%PATH%;C:\Users\appveyor\.cargo\bin
@@ -45,11 +35,7 @@ test_script:
   # we don't run the "test phase" when doing deploys
   - if [%APPVEYOR_REPO_TAG%]==[false] (
       cargo build --target %TARGET% &&
-      cargo build --target %TARGET% --release &&
-      cargo test --target %TARGET% &&
-      cargo test --target %TARGET% --release &&
-      cargo run --target %TARGET% &&
-      cargo run --target %TARGET% --release
+      cargo build --target %TARGET% --release
     )
 
 before_deploy:
@@ -64,7 +50,7 @@ deploy:
   # - Encrypt it. Go to https://ci.appveyor.com/tools/encrypt
   # - Paste the output down here
   auth_token:
-    secure: t3puM/2hOig26EHhAodcZBc61NywF7/PFEpimR6SwGaCiqS07KR5i7iAhSABmBp7
+    secure: pHXXpBjquzmfz1CuWHyGJqPctSUnUe5g5NZ2XLwb9MEA6cUm8mLPYtfJY1i0GuzU
   description: ''
   on:
     # TODO Here you can pick which targets will generate binary releases
