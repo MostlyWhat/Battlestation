@@ -1,6 +1,10 @@
 name: Compile Binaries for Release
 on: [push]
 
+env:
+  PKG_NAME: "MostlyWhat's Battlestation-development"
+  PKG_VERSION: "0.0.1"
+
 jobs:
   Windows:
     name: Compile Windows Binaries
@@ -11,9 +15,6 @@ jobs:
       - name: actions/checkout
         uses: actions/checkout@v2
 
-      - name: Set env for CARGO_PKG_VERSION
-        run: echo "CARGO_PKG_VERSION=$(git describe --tags --always --dirty)" >> $GITHUB_ENV
-
       - uses: actions-rs/cargo@v1
         with:
           command: build
@@ -23,10 +24,10 @@ jobs:
       - name: Release to GitHub Releases
         uses: softprops/action-gh-release@v1
         with:
-          name: Battlestation Version ${{ CARGO_PKG_VERSION }}
-          tag_name: v${{ CARGO_PKG_VERSION }}
-          body: "Automated Battlestation Build Version ${{ CARGO_PKG_VERSION }}"
-          files: ${{ github.workspace }}\battlestation\target\release\mostlywhat-battlestation.exe
+          name: Battlestation Version ${{ PKG_VERSION }}
+          tag_name: v${{ PKG_VERSION }}
+          body: "Automated Battlestation Build Version ${{ PKG_VERSION }}"
+          files: ${{ github.workspace }}\battlestation\target\release\${{ PKG_NAME }}.exe
 
   MacOS:
     name: Compile MacOS Binaries
@@ -37,9 +38,6 @@ jobs:
       - name: actions/checkout
         uses: actions/checkout@v2
 
-      - name: Set env for CARGO_PKG_VERSION
-        run: echo "CARGO_PKG_VERSION=$(git describe --tags --always --dirty)" >> $GITHUB_ENV
-
       - uses: actions-rs/cargo@v1
         with:
           command: build
@@ -49,23 +47,20 @@ jobs:
       - name: Release to GitHub Releases
         uses: softprops/action-gh-release@v1
         with:
-          name: Battlestation Version ${{ CARGO_PKG_VERSION }}
-          tag_name: v${{ CARGO_PKG_VERSION }}
-          body: "Automated Battlestation Build Version ${{ CARGO_PKG_VERSION }}"
-          files: ${{ github.workspace }}\battlestation\target\release\mostlywhat-battlestation.exe
+          name: Battlestation Version ${{ PKG_VERSION }}
+          tag_name: v${{ PKG_VERSION }}
+          body: "Automated Battlestation Build Version ${{ PKG_VERSION }}"
+          files: ${{ github.workspace }}\battlestation\target\release\${{ PKG_NAME }}.app
 
   Linux:
     name: Compile Linux Binaries
-    runs-on: linux-latest
+    runs-on: ubuntu-latest
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: actions/checkout
         uses: actions/checkout@v2
 
-      - name: Set env for CARGO_PKG_VERSION
-        run: echo "CARGO_PKG_VERSION=$(git describe --tags --always --dirty)" >> $GITHUB_ENV
-
       - uses: actions-rs/cargo@v1
         with:
           command: build
@@ -75,7 +70,7 @@ jobs:
       - name: Release to GitHub Releases
         uses: softprops/action-gh-release@v1
         with:
-          name: Battlestation Version ${{ CARGO_PKG_VERSION }}
-          tag_name: v${{ CARGO_PKG_VERSION }}
-          body: "Automated Battlestation Build Version ${{ CARGO_PKG_VERSION }}"
-          files: ${{ github.workspace }}\battlestation\target\release\mostlywhat-battlestation.exe
+          name: Battlestation Version ${{ PKG_VERSION }}
+          tag_name: v${{ PKG_VERSION }}
+          body: "Automated Battlestation Build Version ${{ PKG_VERSION }}"
+          files: ${{ github.workspace }}\battlestation\target\release\${{ PKG_NAME }}
