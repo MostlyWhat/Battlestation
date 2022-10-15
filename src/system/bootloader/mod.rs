@@ -13,7 +13,7 @@ pub fn menu() {
 }
 
 pub fn decryption() -> bool {
-    
+    return true;
 }
 
 pub fn authentication() -> bool {
