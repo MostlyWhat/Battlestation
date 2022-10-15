@@ -3,12 +3,18 @@ on: [push]
 
 env:
   PKG_NAME: "MostlyWhat's Battlestation-development"
-  PKG_VERSION: "0.0.1"
+  PKG_VERSION: "0.0.0"
 
 jobs:
   Windows:
     name: Compile Windows Binaries
     runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: x86_64-pc-windows-gnu
+            archive: zip
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -21,17 +27,24 @@ jobs:
           args: --release
 
       #Publishing to Release
-      - name: Release to GitHub Releases
-        uses: softprops/action-gh-release@v1
+      - uses: actions/checkout@master
+      - name: Compile and release
+        uses: rust-build/rust-build.action@v1.3.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: Battlestation Version ${{ env.env.PKG_VERSION }}
-          tag_name: v${{ env.PKG_VERSION }}
-          body: "Automated Battlestation Build Version ${{ env.PKG_VERSION }}"
-          files: ${{ github.workspace }}\battlestation\target\release\${{ env.PKG_NAME }}.exe
+          RUSTTARGET: ${{ matrix.target }}
+          ARCHIVE_TYPES: ${{ matrix.archive }}
 
   MacOS:
     name: Compile MacOS Binaries
     runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: x86_64-apple-darwin
+            archive: zip
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -44,17 +57,24 @@ jobs:
           args: --release
 
       #Publishing to Release
-      - name: Release to GitHub Releases
-        uses: softprops/action-gh-release@v1
+      - uses: actions/checkout@master
+      - name: Compile and release
+        uses: rust-build/rust-build.action@v1.3.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: Battlestation Version ${{ env.PKG_VERSION }}
-          tag_name: v${{ env.PKG_VERSION }}
-          body: "Automated Battlestation Build Version ${{ env.PKG_VERSION }}"
-          files: ${{ github.workspace }}\battlestation\target\release\${{ env.PKG_NAME }}.app
+          RUSTTARGET: ${{ matrix.target }}
+          ARCHIVE_TYPES: ${{ matrix.archive }}
 
   Linux:
     name: Compile Linux Binaries
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: x86_64-unknown-linux-musl
+            archive: tar.gz tar.xz
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -67,10 +87,11 @@ jobs:
           args: --release
 
       #Publishing to Release
-      - name: Release to GitHub Releases
-        uses: softprops/action-gh-release@v1
+      - uses: actions/checkout@master
+      - name: Compile and release
+        uses: rust-build/rust-build.action@v1.3.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: Battlestation Version ${{ env.PKG_VERSION }}
-          tag_name: v${{ env.PKG_VERSION }}
-          body: "Automated Battlestation Build Version ${{ env.PKG_VERSION }}"
-          files: ${{ github.workspace }}\battlestation\target\release\${{ env.PKG_NAME }}
+          RUSTTARGET: ${{ matrix.target }}
+          ARCHIVE_TYPES: ${{ matrix.archive }}
