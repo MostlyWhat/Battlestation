@@ -1,4 +1,4 @@
-name: 'Compile Binaries'
+name: 'Compile Release Binaries'
 
 on:
   push:
@@ -86,13 +86,14 @@ jobs:
   #         WAPM_REGISTRY_TOKEN: ${{ secrets.WAPM_REGISTRY_TOKEN }}
   
   release:
-    name: "Tagged Release"
+    name: "Release Files"
     runs-on: "ubuntu-20.04"
     needs: build
     steps:
       - uses: actions/download-artifact@v2
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
+          automatic_release_tag: "latest"
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           files: |
