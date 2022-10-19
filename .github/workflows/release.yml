@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
     inputs:
       bump:
-        description: '[ major | feature | bug | alpha | beta | rc ]'
+        description: 'major, feature, bug, alpha, beta, rc'
         default: 'bug'
       pre_release:
         description: 'pre release, true or false'
@@ -70,6 +70,16 @@ jobs:
           name: mostlywhat-battlestation
           path: mostlywhat-battlestation-${{ matrix.job.exe }}
 
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
   #cargo-publish:
   #  runs-on: ubuntu-20.04
   #  needs: build
@@ -100,7 +110,7 @@ jobs:
   
   release:
     name: "Release Files"
-    runs-on: "ubuntu-20.04"
+    runs-on: "ubuntu-latest"
     needs: build
     steps:
       # - uses: actions/checkout@v1
@@ -113,21 +123,33 @@ jobs:
       #     draft: ${{ github.event.inputs.draft }}
       #     pre_release: ${{ github.event.inputs.pre_release }}
 
-      - name: Get Latest tag
-        run: echo "LATEST_TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+      # - name: Get Latest tag
+      #   run: echo "LATEST_TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
 
-      - name: Bump release version
-        id: bump_version
-        uses: christian-draeger/increment-semantic-version@1.0.2
-        with:
-          current-version: "${{ env.LATEST_TAG }}"
-          version-fragment: "${{ github.event.inputs.bump }}"
+      # - name: Bump release version
+      #   id: bump_version
+      #   uses: christian-draeger/increment-semantic-version@1.0.2
+      #   with:
+      #     current-version: "${{ env.LATEST_TAG }}"
+      #     version-fragment: "${{ github.event.inputs.bump }}"
+
+      # - uses: "marvinpinto/action-automatic-releases@latest"
+      #   with:
+      #     automatic_release_tag: "${{ steps.bump_version.outputs.next-version }}"
+      #     repo_token: "${{ secrets.GITHUB_TOKEN }}"
+      #     prerelease: "${{ github.event.inputs.pre_release }}"
+      #     files: |
+      #       ./mostlywhat-battlestation/mostlywhat-battlestation-windows.exe
+      #       ./mostlywhat-battlestation/mostlywhat-battlestation-macos
+      #       ./mostlywhat-battlestation/mostlywhat-battlestation-aarch64-linux
+      #       ./mostlywhat-battlestation/mostlywhat-battlestation-armv7-linux
+      #       ./mostlywhat-battlestation/mostlywhat-battlestation-amd64-linux
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
-          automatic_release_tag: "${{ steps.bump_version.outputs.next-version }}"
+          automatic_release_tag: "latest"
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          prerelease: "${{ github.event.inputs.pre_release }}"
+          prerelease: false
           files: |
             ./mostlywhat-battlestation/mostlywhat-battlestation-windows.exe
             ./mostlywhat-battlestation/mostlywhat-battlestation-macos
