@@ -1,17 +1,19 @@
 name: 'Compile Release Binaries'
 
 on:
+  # push:
+  #   branches:
+  #     - main
+
+  # pull_request:
+  #   branches: 
+  #     - main
+
   workflow_dispatch:
     inputs:
       bump:
-        description: 'bump type, major or minor or patch or empty string'
-        default: ''
-      dry_run:
-        description: 'dry run, true or false'
-        default: 'false'
-      draft:
-        description: 'draft, true or false'
-        default: 'false'
+        description: '[ major | feature | bug | alpha | beta | rc ]'
+        default: 'bug'
       pre_release:
         description: 'pre release, true or false'
         default: 'false'
@@ -101,24 +103,34 @@ jobs:
     runs-on: "ubuntu-20.04"
     needs: build
     steps:
-      - uses: actions/checkout@v1
+      # - uses: actions/checkout@v1
       - uses: actions/download-artifact@v2
-      - uses: MeilCli/bump-release-action@master
-        with:
-          config_path: '${{ github.workspace }}/.github/bump.yml'
-          bump: ${{ github.event.inputs.bump }}
-          dry_run: ${{ github.event.inputs.dry_run }}
-          draft: ${{ github.event.inputs.draft }}
-          pre_release: ${{ github.event.inputs.pre_release }}
-
-      # - uses: "marvinpinto/action-automatic-releases@latest"
+      # - uses: MeilCli/bump-release-action@master
       #   with:
-      #     automatic_release_tag: "latest"
-      #     repo_token: "${{ secrets.GITHUB_TOKEN }}"
-      #     prerelease: false
-      #     files: |
-      #       ./mostlywhat-battlestation/mostlywhat-battlestation-windows.exe
-      #       ./mostlywhat-battlestation/mostlywhat-battlestation-macos
-      #       ./mostlywhat-battlestation/mostlywhat-battlestation-aarch64-linux
-      #       ./mostlywhat-battlestation/mostlywhat-battlestation-armv7-linux
-      #       ./mostlywhat-battlestation/mostlywhat-battlestation-amd64-linux
+      #     config_path: '${{ github.workspace }}/.github/bump.yml'
+      #     bump: ${{ github.event.inputs.bump }}
+      #     dry_run: ${{ github.event.inputs.dry_run }}
+      #     draft: ${{ github.event.inputs.draft }}
+      #     pre_release: ${{ github.event.inputs.pre_release }}
+
+      - name: Get Latest tag
+        run: echo "LATEST_TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+
+      - name: Bump release version
+        id: bump_version
+        uses: christian-draeger/increment-semantic-version@1.0.2
+        with:
+          current-version: "${{ env.LATEST_TAG }}"
+          version-fragment: "${{ github.event.inputs.bump }}"
+
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          automatic_release_tag: "${{ steps.bump_version.outputs.next-version }}"
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: "${{ github.event.inputs.pre_release }}"
+          files: |
+            ./mostlywhat-battlestation/mostlywhat-battlestation-windows.exe
+            ./mostlywhat-battlestation/mostlywhat-battlestation-macos
+            ./mostlywhat-battlestation/mostlywhat-battlestation-aarch64-linux
+            ./mostlywhat-battlestation/mostlywhat-battlestation-armv7-linux
+            ./mostlywhat-battlestation/mostlywhat-battlestation-amd64-linux
