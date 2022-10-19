@@ -2,8 +2,8 @@ name: 'Compile Binaries'
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - main
 
 env:
   CARGO_INCREMENTAL: 0
