@@ -94,7 +94,7 @@ jobs:
       - uses: actions/download-artifact@v2
       - uses: MeilCli/bump-release-action@master
         with:
-          config_path: '${{ GITHUB_WORKSPACE }}.github/bump.yml'
+          config_path: '${{ github.workspace }}/.github/bump.yml'
           bump: ${{ github.event.inputs.bump }}
           dry_run: ${{ github.event.inputs.dry_run }}
           draft: ${{ github.event.inputs.draft }}
