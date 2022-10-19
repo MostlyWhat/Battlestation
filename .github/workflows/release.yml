@@ -1,22 +1,22 @@
 name: 'Compile Release Binaries'
 
 on:
-  # push:
-  #   branches:
-  #     - main
+  push:
+    branches:
+      - main
 
-  # pull_request:
-  #   branches: 
-  #     - main
+  pull_request:
+    branches: 
+      - main
 
-  workflow_dispatch:
-    inputs:
-      bump:
-        description: 'major, feature, bug, alpha, beta, rc'
-        default: 'bug'
-      pre_release:
-        description: 'pre release, true or false'
-        default: 'false'
+  # workflow_dispatch:
+  #   inputs:
+  #     bump:
+  #       description: 'major, feature, bug, alpha, beta, rc'
+  #       default: 'bug'
+  #     pre_release:
+  #       description: 'pre release, true or false'
+  #       default: 'false'
 
 env:
   CARGO_INCREMENTAL: 0
