@@ -1,0 +1,85 @@
+release:
+  title-prefix: 'Version'
+  title-postfix: ' Released!'
+  body-title: 'Updated'
+  body-when-empty-changes: 'No Changes'
+  initial-version: '0.0.1'
+  tag-prefix: 'v'
+  sort-by: 'note'
+  sort-direction: 'ascending'
+  commit-note-replacers:
+    - replace-prefix: '[Breaking] '
+      new-prefix: ''
+    - replace-prefix: '[Feature] '
+      new-prefix: ''
+    - replace-prefix: '[Change] '
+      new-prefix: ''
+    - replace-prefix: '[Fix] '
+      new-prefix: ''
+    - replace-prefix: '[Documentation] '
+      new-prefix: ''
+    - replace-prefix: '[Dependency] '
+      new-prefix: ''
+
+branch:
+  version-branch-prefix: 'v'
+  bump-version-commit-prefix: 'v'
+
+categories:
+  - title: 'Breaking Changes!'
+    labels:
+      - 'Breaking Changes'
+    commits:
+      - '[Breaking]'
+    changes-prefix: ':warning: '
+  - title: 'Changes'
+    labels:
+      - 'Feature'
+    commits:
+      - '[Feature]'
+    changes-prefix: ':gift: '
+  - title: 'Changes'
+    labels:
+      - Maintenance
+    commits:
+      - '[Change]'
+    changes-prefix: ':hammer: '
+  - title: 'Bug Fixes'
+    labels:
+      - 'Bug'
+    commits:
+      - '[Fix]'
+    changes-prefix: ':ambulance: '
+  - title: 'Documentation'
+    labels:
+      - 'Documentation'
+    commits:
+      - '[Documentation]'
+    changes-prefix: ':blue_book: '
+  - title: 'Dependency Updates'
+    labels:
+      - 'Dependencies'
+    skip-label: 'Development'
+    commits:
+      - '[Dependencies]'
+    changes-prefix: ':green_book: '
+
+bump:
+  default: 'patch'
+  major:
+    labels:
+      - 'Breaking Change'
+    commits:
+      - '[Breaking]'
+  minor:
+    labels:
+      - 'Feature'
+    commits:
+      - '[Feature]'
+
+files: |
+  ./mostlywhat-battlestation/mostlywhat-battlestation-windows.exe
+  ./mostlywhat-battlestation/mostlywhat-battlestation-macos
+  ./mostlywhat-battlestation/mostlywhat-battlestation-aarch64-linux
+  ./mostlywhat-battlestation/mostlywhat-battlestation-armv7-linux
+  ./mostlywhat-battlestation/mostlywhat-battlestation-amd64-linux

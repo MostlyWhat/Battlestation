@@ -91,14 +91,21 @@ jobs:
     needs: build
     steps:
       - uses: actions/download-artifact@v2
-      - uses: "marvinpinto/action-automatic-releases@latest"
+      - uses: MeilCli/bump-release-action@master
         with:
-          automatic_release_tag: "latest"
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          prerelease: false
-          files: |
-            ./mostlywhat-battlestation/mostlywhat-battlestation-windows.exe
-            ./mostlywhat-battlestation/mostlywhat-battlestation-macos
-            ./mostlywhat-battlestation/mostlywhat-battlestation-aarch64-linux
-            ./mostlywhat-battlestation/mostlywhat-battlestation-armv7-linux
-            ./mostlywhat-battlestation/mostlywhat-battlestation-amd64-linux
+          config_path: '.github/bump.yml'
+          bump: ${{ github.event.inputs.bump }}
+          dry_run: ${{ github.event.inputs.dry_run }}
+          draft: ${{ github.event.inputs.draft }}
+          pre_release: ${{ github.event.inputs.pre_release }}
+      # - uses: "marvinpinto/action-automatic-releases@latest"
+      #   with:
+      #     automatic_release_tag: "latest"
+      #     repo_token: "${{ secrets.GITHUB_TOKEN }}"
+      #     prerelease: false
+      #     files: |
+      #       ./mostlywhat-battlestation/mostlywhat-battlestation-windows.exe
+      #       ./mostlywhat-battlestation/mostlywhat-battlestation-macos
+      #       ./mostlywhat-battlestation/mostlywhat-battlestation-aarch64-linux
+      #       ./mostlywhat-battlestation/mostlywhat-battlestation-armv7-linux
+      #       ./mostlywhat-battlestation/mostlywhat-battlestation-amd64-linux
