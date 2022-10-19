@@ -37,6 +37,17 @@ jobs:
     runs-on: ${{ matrix.job.os }}
     steps:
       - uses: actions/checkout@v2
+
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          
       # - uses: actions-rs/toolchain@v1
       #   with:
       #     profile: minimal
@@ -44,6 +55,7 @@ jobs:
       #     override: true
       #     target: ${{ matrix.job.target }}
       #     components: rust-src
+      
       - uses: actions-rs/cargo@v1
         with:
           use-cross: true
@@ -69,16 +81,6 @@ jobs:
         with:
           name: mostlywhat-battlestation
           path: mostlywhat-battlestation-${{ matrix.job.exe }}
-
-      - uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
   #cargo-publish:
   #  runs-on: ubuntu-20.04
