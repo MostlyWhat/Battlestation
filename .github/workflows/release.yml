@@ -90,14 +90,16 @@ jobs:
     runs-on: "ubuntu-20.04"
     needs: build
     steps:
+      - uses: actions/checkout@v1
       - uses: actions/download-artifact@v2
       - uses: MeilCli/bump-release-action@master
         with:
-          config_path: '.github/bump.yml'
+          config_path: '${{ GITHUB_WORKSPACE }}.github/bump.yml'
           bump: ${{ github.event.inputs.bump }}
           dry_run: ${{ github.event.inputs.dry_run }}
           draft: ${{ github.event.inputs.draft }}
           pre_release: ${{ github.event.inputs.pre_release }}
+
       # - uses: "marvinpinto/action-automatic-releases@latest"
       #   with:
       #     automatic_release_tag: "latest"
