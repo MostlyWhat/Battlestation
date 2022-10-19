@@ -1,7 +1,0 @@
-Creating Commits
-git tag -a v0.0.1 -m "Releasing version v0.0.1"
-git push origin v0.0.1
-
-Deleting Commits
-git push --delete origin v0.0.1
-git tag --delete v0.0.1

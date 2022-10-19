@@ -3,7 +3,7 @@ release:
   title-postfix: ' Released!'
   body-title: 'Updated'
   body-when-empty-changes: 'No Changes'
-  initial-version: '0.0.1'
+  initial-version: '0.0.0'
   tag-prefix: 'v'
   sort-by: 'note'
   sort-direction: 'ascending'
