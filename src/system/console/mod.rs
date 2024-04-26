@@ -17,7 +17,7 @@ pub fn main(username: &str) {
             "clear" | "cls" => clear(),
             "help" => help(),
             "system" => system(),
-            "exit" => exit(),
+            "exit" | "quit" => exit(),
             _ => output(
                 "Console",
                 "Unknown Command, Type 'help' for a list of commands.",

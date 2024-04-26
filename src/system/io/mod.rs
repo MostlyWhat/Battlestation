@@ -28,6 +28,11 @@ pub fn output(program: &str, text: &str) {
     println!("\n[ {} ] {}\n", program, text);
 }
 
+// No Program Input Function
+pub fn no_program_input(text: &str) {
+    println!("{}", text);
+}
+
 // Clear Screen Function
 pub fn clear() {
     clearscreen::clear().unwrap();
